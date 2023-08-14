@@ -1,0 +1,164 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Health API",
+      "description": "My Health Project Application API"
+    },
+    "paths": {
+      "/users/register": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create a new user",
+          "responses": {
+            "201": {
+              "description": "OK"
+            },
+            "409": {
+              "description": "Email is in use"
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "tags": ["Users"],
+          "summary": ["Login user"],
+          "responses": {
+            "200": {
+              "description":"User is logged in."
+            },
+            "401": {
+              "description": "Email or password is wrong"
+            }
+          }
+        }
+      },
+      "users/logout": {
+        "post": {
+          "tags": ["Users"],
+          "summary": ["Logout user"],
+          "responses": {
+            "204": {
+              "description": "LOg out user"
+            }
+          }
+        }
+      },
+      "/users/current": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get active user",
+          "responses": {
+            "201": {
+              "description": "User is created",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        }
+      },
+      "/daily": {
+        "post": {
+          "tags": ["Daily Intake"],
+          "summary": "Add daily product",
+          "responses": {
+            "201": {
+              "description": "Daily product was added"
+            }
+          }
+        }
+      },
+      "/daily/{productId}": {
+        "delete": {
+          "tags":["Daily Intake"],
+          "summary": "Remove daily product",
+          "responses": {
+            "200": {
+              "description": "Daily product was removed"
+            }
+          }
+        }
+      },
+      "/daily/{productDate}": {
+        "get": {
+          "tags":["Daily Intake"],
+          "summary": "Get daily products",
+          "responses": {
+            "200": {
+              "description": "Producs found"
+            },
+            "401": {
+              "description": "Missing header with authorization token."
+            },
+            "404": {
+              "description": "There is no such products collection"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      }
+    },
+  
+    "definitions": {
+      "User": {
+        "required": ["name", "email", "password"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Backend-generated unique identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password"
+          }
+
+        }
+      },
+      "Daily": {
+        "required": ["name", "weight", "callories", "date", "owner"],
+        "properties":{
+          "_id": {
+            "type": "string",
+            "uniqueItems": true,
+            "description": "Backend-generated unique identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of daily product"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight of daily product"
+          },
+          "callories": {
+            "type": "number",
+            "description": "Callories"
+          },
+          "date": {
+            "type": "Date",
+            "description": "Date"
+          },
+          "owner": {
+            "type": "Schema.Types.ObjectId",
+            "description": "Id of user"
+          }
+        }
+      }
+    },
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"]
+  }
